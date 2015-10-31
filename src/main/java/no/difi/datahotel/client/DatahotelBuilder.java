@@ -1,10 +1,14 @@
 package no.difi.datahotel.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import no.difi.datahotel.client.fetcher.ApacheFetcher;
 import no.difi.datahotel.client.lang.Dataset;
 import no.difi.datahotel.client.lang.Fetcher;
 
 public class DatahotelBuilder<T> {
+
+    private static ObjectMapper defaultMapper;
 
     public static <T> DatahotelBuilder<T> create(Class<T> cls) {
         if (!cls.isAnnotationPresent(Dataset.class))
@@ -17,10 +21,19 @@ public class DatahotelBuilder<T> {
         return new DatahotelBuilder<T>(cls, location);
     }
 
+    private static synchronized ObjectMapper getDefaultMapper() {
+        if (defaultMapper == null)
+            defaultMapper = new ObjectMapper()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+        return defaultMapper;
+    }
+
     private Class<T> cls;
     private String location;
 
     private Fetcher fetcher;
+    private ObjectMapper mapper;
     private String source;
 
     DatahotelBuilder(Class<T> cls, String location) {
@@ -33,6 +46,11 @@ public class DatahotelBuilder<T> {
         return this;
     }
 
+    public DatahotelBuilder<T> mapper(ObjectMapper mapper) {
+        this.mapper = mapper;
+        return this;
+    }
+
     public DatahotelBuilder<T> source(String source) {
         this.source = source;
         return this;
@@ -41,9 +59,11 @@ public class DatahotelBuilder<T> {
     public Datahotel<T> build() {
         if (fetcher == null)
             fetcher(new ApacheFetcher());
+        if (mapper == null)
+            mapper(getDefaultMapper());
         if (source == null)
             source("https://hotell.difi.no/");
 
-        return new Datahotel<T>(fetcher, cls, source, location);
+        return new Datahotel<T>(fetcher, mapper, cls, source, location);
     }
 }

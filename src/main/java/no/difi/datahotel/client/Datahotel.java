@@ -1,6 +1,5 @@
 package no.difi.datahotel.client;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.difi.datahotel.client.lang.DatahotelException;
@@ -11,19 +10,18 @@ import java.net.URI;
 
 public class Datahotel<T> {
 
-    private static ObjectMapper mapper = new ObjectMapper()
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
+    private ObjectMapper mapper;
     private Fetcher fetcher;
     private String source;
     private String location;
     private JavaType javaType;
 
-    Datahotel(Fetcher fetcher, Class<T> dataset, String source, String location) {
+    Datahotel(Fetcher fetcher, ObjectMapper mapper, Class<T> cls, String source, String location) {
         this.fetcher = fetcher;
+        this.mapper = mapper;
         this.source = source;
         this.location = location;
-        this.javaType = mapper.getTypeFactory().constructParametricType(InternalResult.class, dataset);
+        this.javaType = mapper.getTypeFactory().constructParametricType(InternalResult.class, cls);
     }
 
     Result<T> fetch(URI uri) throws DatahotelException {
