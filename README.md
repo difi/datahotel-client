@@ -58,6 +58,6 @@ for (DifiGeoFylke county : datahotel.page(1)) {
 }
 
 // Print name of county number 14
-Result result = datahotel.field("nummer", "14").fetch();
-System.out.println(result.get(0).getNavn());
+DifiGeoFylke county = datahotel.field("nummer", "14").single();
+System.out.println(county.getNavn());
 ```

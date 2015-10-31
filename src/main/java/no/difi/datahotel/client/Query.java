@@ -41,6 +41,14 @@ public class Query<T> implements Iterable<T> {
         }
     }
 
+    public T single() throws DatahotelException {
+        Result<T> result = fetch();
+        if (result.size() > 0)
+            return result.get(0);
+
+        return null;
+    }
+
     @Override
     public Iterator<T> iterator() {
         try {
