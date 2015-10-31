@@ -8,9 +8,8 @@ import no.difi.datahotel.client.lang.InternalResult;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Iterator;
 
-public class Datahotel<T> implements Iterable<T> {
+public class Datahotel<T> {
 
     private ObjectMapper mapper;
     private Fetcher fetcher;
@@ -53,8 +52,7 @@ public class Datahotel<T> implements Iterable<T> {
         return createQuery().fetch();
     }
 
-    @Override
-    public Iterator<T> iterator() {
+    public Iterable<T> all() {
         try {
             return new Download<T>(fetcher.get(URI.create(source + "download/" + location)), cls);
         } catch (IOException e) {

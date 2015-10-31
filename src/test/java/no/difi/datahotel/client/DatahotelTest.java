@@ -72,7 +72,7 @@ public class DatahotelTest {
         Result result = datahotel.field("nummer", "14").fetch();
         System.out.println(((DifiGeoFylke)result.get(0)).getNavn());
 
-        for (DifiGeoFylke county : datahotel.fetch()) {
+        for (DifiGeoFylke county : datahotel.page(1)) {
             System.out.println(String.format("%s: %s", county.getNummer(), county.getNavn()));
         }
     }

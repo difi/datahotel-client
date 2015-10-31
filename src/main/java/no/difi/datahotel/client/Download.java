@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-class Download<T> implements Iterator<T> {
+class Download<T> implements Iterable<T>, Iterator<T> {
 
     private InputStream inputStream;
     private Class<T> cls;
@@ -28,6 +28,11 @@ class Download<T> implements Iterator<T> {
 
         this.csvReader.readHeaders();
         this.headers = this.csvReader.getHeaders();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return this;
     }
 
     @Override

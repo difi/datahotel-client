@@ -19,15 +19,12 @@ Start fetching data:
 Datahotel<DifiGeoKommune> datahotel = DatahotelBuilder.create(DifiGeoKommune.class).build();
 
 // Find all minicipalities starting with "Os" in name
-Result result = datahotel.search("Os*").fetch();
-
-// List municipalities found in search
-for (DifiGeoKommune municipality : result) {
+for (DifiGeoKommune municipality : datahotel.search("Os*")) {
 	System.out.println(municipality.getNavn());
 }
 
 // Loop all municipalities in data set
-for (DifiGeoKommune municipality : datahotel) {
+for (DifiGeoKommune municipality : datahotel.all()) {
 	System.out.println(municipality.getNavn());
 }
 ```
@@ -56,7 +53,7 @@ public class DifiGeoFylke {
 Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
 
 // List all counties:
-for (DifiGeoFylke county : datahotel.fetch()) {
+for (DifiGeoFylke county : datahotel.page(1)) {
 	System.out.println(String.format("%s: %s", county.getNummer(), county.getNavn()));
 }
 

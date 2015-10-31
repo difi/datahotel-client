@@ -4,8 +4,9 @@ import no.difi.datahotel.client.lang.DatahotelException;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
+import java.util.Iterator;
 
-public class Query<T> {
+public class Query<T> implements Iterable<T> {
 
     private Datahotel<T> datahotel;
     private URIBuilder uriBuilder;
@@ -37,6 +38,15 @@ public class Query<T> {
             throw e;
         } catch (Exception e) {
             throw new DatahotelException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        try {
+            return fetch().iterator();
+        } catch (DatahotelException e) {
+            return null;
         }
     }
 }

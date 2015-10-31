@@ -11,7 +11,7 @@ public class DownloadTest {
         Datahotel<DifiGeoKommune> datahotel = DatahotelBuilder.create(DifiGeoKommune.class).build();
 
         int counter = 0;
-        for (DifiGeoKommune kommune : datahotel) {
+        for (DifiGeoKommune kommune : datahotel.all()) {
             // System.out.println(kommune);
             counter++;
         }
@@ -23,7 +23,7 @@ public class DownloadTest {
         Datahotel<BrregEnhetsregisteret> datahotel = DatahotelBuilder.create(BrregEnhetsregisteret.class).build();
 
         int counter = 0;
-        for (BrregEnhetsregisteret o : datahotel) {
+        for (BrregEnhetsregisteret o : datahotel.all()) {
             if (counter % 100 == 0)
                 System.out.println(o);
             counter++;
