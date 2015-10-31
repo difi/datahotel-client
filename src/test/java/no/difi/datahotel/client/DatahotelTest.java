@@ -69,7 +69,7 @@ public class DatahotelTest {
     public void county() throws Exception {
         Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
 
-        DifiGeoFylke fylke = datahotel.field("nummer", "14").single();
+        DifiGeoFylke fylke = datahotel.field("nummer", 14).single();
         System.out.println(fylke.getNavn());
 
         for (DifiGeoFylke county : datahotel.page(1)) {

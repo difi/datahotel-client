@@ -44,6 +44,10 @@ public class Datahotel<T> {
         return createQuery().search(query);
     }
 
+    public Query<T> field(String key, Object value) {
+        return createQuery().field(key, value);
+    }
+
     public Query<T> field(String key, String value) {
         return createQuery().field(key, value);
     }

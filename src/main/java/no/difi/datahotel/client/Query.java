@@ -26,6 +26,10 @@ public class Query<T> implements Iterable<T> {
         return this;
     }
 
+    public Query<T> field(String key, Object value) {
+        return field(key, String.valueOf(value));
+    }
+
     public Query<T> field(String key, String value) {
         uriBuilder.setParameter(key, value);
         return this;
