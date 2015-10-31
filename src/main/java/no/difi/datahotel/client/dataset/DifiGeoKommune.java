@@ -13,12 +13,24 @@ public class DifiGeoKommune {
         return fylke;
     }
 
+    public void setFylke(String fylke) {
+        this.fylke = fylke;
+    }
+
     public String getNavn() {
         return navn;
     }
 
+    public void setNavn(String navn) {
+        this.navn = navn;
+    }
+
     public String getKommune() {
         return kommune;
+    }
+
+    public void setKommune(String kommune) {
+        this.kommune = kommune;
     }
 
     @Override

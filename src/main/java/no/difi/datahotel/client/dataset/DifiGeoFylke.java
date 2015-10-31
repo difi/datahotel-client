@@ -10,8 +10,16 @@ public class DifiGeoFylke {
         return nummer;
     }
 
+    public void setNummer(String nummer) {
+        this.nummer = nummer;
+    }
+
     public String getNavn() {
         return navn;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
     }
 
     @Override

@@ -6,8 +6,8 @@ Include dependency in your pom.xml:
 
 ```xml
 <dependency>
-	<groupId>no.difi.datahotel</groupId>
-	<artifactId>datahotel-client</artifactId>
+	<groupId>no.difi.commons</groupId>
+	<artifactId>commons-datahotel</artifactId>
 	<version>0.9.0</version>
 </dependency>
 ```
@@ -25,6 +25,11 @@ Result result = datahotel.search("Os*").fetch();
 for (DifiGeoKommune municipality : result) {
 	System.out.println(municipality.getNavn());
 }
+
+// Loop all municipalities in data set
+for (DifiGeoKommune municipality : datahotel) {
+	System.out.println(municipality.getNavn());
+}
 ```
 
 ## Query datahotel using your own classes
@@ -33,6 +38,7 @@ Want to make queries for counties?
 
 ```java
 // Create class
+// Please note setters are needed when using looping whole data set.
 @Dataset("difi/geo/fylke")
 public class DifiGeoFylke {
     private String nummer, navn;
