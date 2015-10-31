@@ -7,13 +7,11 @@ import no.difi.datahotel.client.dataset.DifiGeoKommune;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 public class DatahotelTest {
 
     @Test
     public void simple() throws Exception {
-        Datahotel datahotel = DatahotelBuilder.create(DifiGeoKommune.class).build();
+        Datahotel<DifiGeoKommune> datahotel = DatahotelBuilder.create(DifiGeoKommune.class).build();
         Result result;
 
         result = datahotel.fetch();
@@ -42,23 +40,23 @@ public class DatahotelTest {
 
     @Test
     public void brregEnhetsregisteret() throws Exception {
-        Datahotel datahotel = DatahotelBuilder.create(BrregEnhetsregisteret.class).build();
+        Datahotel<BrregEnhetsregisteret> datahotel = DatahotelBuilder.create(BrregEnhetsregisteret.class).build();
 
-        for (BrregEnhetsregisteret o : (List<BrregEnhetsregisteret>) datahotel.page(1).fetch())
+        for (BrregEnhetsregisteret o : datahotel.page(1).fetch())
             Assert.assertFalse(o.toString().contains("null"));
     }
 
     @Test
     public void brregUnderenheter() throws Exception {
-        Datahotel datahotel = DatahotelBuilder.create(BrregUnderenheter.class).build();
+        Datahotel<BrregUnderenheter> datahotel = DatahotelBuilder.create(BrregUnderenheter.class).build();
 
-        for (BrregUnderenheter o : (List<BrregUnderenheter>) datahotel.page(1).fetch())
+        for (BrregUnderenheter o : datahotel.page(1).fetch())
             Assert.assertFalse(o.toString().contains("null"));
     }
 
     @Test
     public void test404() throws Exception {
-        Datahotel datahotel = DatahotelBuilder.create(Object.class, "some/location").build();
+        Datahotel<Object> datahotel = DatahotelBuilder.create(Object.class, "some/location").build();
         Result result = datahotel.fetch();
 
         Assert.assertEquals(result.getPage(), 0);
@@ -69,12 +67,12 @@ public class DatahotelTest {
 
     @Test
     public void county() throws Exception {
-        Datahotel datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
+        Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
 
         Result result = datahotel.field("nummer", "14").fetch();
         System.out.println(((DifiGeoFylke)result.get(0)).getNavn());
 
-        for (DifiGeoFylke county : (List<DifiGeoFylke>) datahotel.fetch()) {
+        for (DifiGeoFylke county : datahotel.fetch()) {
             System.out.println(String.format("%s: %s", county.getNummer(), county.getNavn()));
         }
     }

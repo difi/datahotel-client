@@ -5,32 +5,32 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
 
-public class Query {
+public class Query<T> {
 
-    private Datahotel datahotel;
+    private Datahotel<T> datahotel;
     private URIBuilder uriBuilder;
 
-    Query(Datahotel datahotel, URI uri) {
+    Query(Datahotel<T> datahotel, URI uri) {
         this.datahotel = datahotel;
         this.uriBuilder = new URIBuilder(uri);
     }
 
-    public Query page(long page) {
+    public Query<T> page(long page) {
         uriBuilder.setParameter("page", String.valueOf(page));
         return this;
     }
 
-    public Query search(String query) {
+    public Query<T> search(String query) {
         uriBuilder.setParameter("query", query);
         return this;
     }
 
-    public Query field(String key, String value) {
+    public Query<T> field(String key, String value) {
         uriBuilder.setParameter(key, value);
         return this;
     }
 
-    public Result fetch() throws DatahotelException{
+    public Result<T> fetch() throws DatahotelException{
         try {
             return datahotel.fetch(uriBuilder.build());
         } catch (DatahotelException e) {

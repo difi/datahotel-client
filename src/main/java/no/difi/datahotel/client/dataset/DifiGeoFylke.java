@@ -13,4 +13,12 @@ public class DifiGeoFylke {
     public String getNavn() {
         return navn;
     }
+
+    @Override
+    public String toString() {
+        return "DifiGeoFylke{" +
+                "nummer='" + nummer + '\'' +
+                ", navn='" + navn + '\'' +
+                '}';
+    }
 }

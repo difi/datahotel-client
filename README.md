@@ -16,15 +16,20 @@ Start fetching data:
 
 ```java
 // Build client for municipalities
-Datahotel datahotel = DatahotelBuilder.create(DifiGeoKommune.class).build();
+Datahotel<DifiGeoKommune> datahotel = DatahotelBuilder.create(DifiGeoKommune.class).build();
 
 // Find all minicipalities starting with "Os" in name
 Result result = datahotel.search("Os*").fetch();
+
+// List municipalities found in search
+for (DifiGeoKommune municipality : result) {
+	System.out.println(municipality.getNavn());
+}
 ```
 
 ## Query datahotel using your own classes
 
-Want to make a queries for counties?
+Want to make queries for counties?
 
 ```java
 // Create class
@@ -42,14 +47,14 @@ public class DifiGeoFylke {
 }
 
 // Build client for municipalities
-Datahotel datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
+Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
 
 // List all counties:
-for (DifiGeoFylke county : (List<DifiGeoFylke>) datahotel.fetch()) {
+for (DifiGeoFylke county : datahotel.fetch()) {
 	System.out.println(String.format("%s: %s", county.getNummer(), county.getNavn()));
 }
 
 // Print name of county number 14
 Result result = datahotel.field("nummer", "14").fetch();
-System.out.println(((DifiGeoFylke) result.get(0)).getNavn());
+System.out.println(result.get(0).getNavn());
 ```

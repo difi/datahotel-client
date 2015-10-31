@@ -8,9 +8,8 @@ import no.difi.datahotel.client.lang.Fetcher;
 import no.difi.datahotel.client.lang.InternalResult;
 
 import java.net.URI;
-import java.util.List;
 
-public class Datahotel {
+public class Datahotel<T> {
 
     private static ObjectMapper mapper = new ObjectMapper()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -20,39 +19,39 @@ public class Datahotel {
     private String location;
     private JavaType javaType;
 
-    Datahotel(Fetcher fetcher, Class<?> dataset, String source, String location) {
+    Datahotel(Fetcher fetcher, Class<T> dataset, String source, String location) {
         this.fetcher = fetcher;
         this.source = source;
         this.location = location;
         this.javaType = mapper.getTypeFactory().constructParametricType(InternalResult.class, dataset);
     }
 
-    Result fetch(URI uri) throws DatahotelException {
+    Result<T> fetch(URI uri) throws DatahotelException {
         try {
             InternalResult ir = mapper.readValue(fetcher.get(uri), this.javaType);
-            return new Result(ir.getEntries(), ir.getPage(), ir.getPages(), ir.getPosts());
+            return new Result<T>(ir.getEntries(), ir.getPage(), ir.getPages(), ir.getPosts());
         } catch (Exception e) {
             throw new DatahotelException(e.getMessage(), e);
         }
     }
 
-    public Query page(long page) {
+    public Query<T> page(long page) {
         return createQuery().page(page);
     }
 
-    public Query search(String query) {
+    public Query<T> search(String query) {
         return createQuery().search(query);
     }
 
-    public Query field(String key, String value) {
+    public Query<T> field(String key, String value) {
         return createQuery().field(key, value);
     }
 
-    public Result fetch() throws DatahotelException {
+    public Result<T> fetch() throws DatahotelException {
         return createQuery().fetch();
     }
 
-    private Query createQuery() {
-        return new Query(this, URI.create(source + "api/json/" + location));
+    private Query<T> createQuery() {
+        return new Query<T>(this, URI.create(source + "api/json/" + location));
     }
 }
