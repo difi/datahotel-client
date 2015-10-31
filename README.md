@@ -49,8 +49,10 @@ public class DifiGeoFylke {
     }
 }
 
-// Build client for municipalities
+// Build client for municipalities (using annotation)
 Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
+// Build client for municipalities (not using annotation)
+Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class, "difi/geo/fylke").build();
 
 // List all counties:
 for (DifiGeoFylke county : datahotel.page(1)) {
@@ -58,6 +60,5 @@ for (DifiGeoFylke county : datahotel.page(1)) {
 }
 
 // Print name of county number 14
-DifiGeoFylke county = datahotel.field("nummer", 14).single();
-System.out.println(county.getNavn());
+System.out.println(datahotel.field("nummer", 14).single().getNavn());
 ```
