@@ -9,6 +9,11 @@ import no.difi.datahotel.client.lang.InternalResult;
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ * Client for specific data set.
+ *
+ * @param <T>
+ */
 public class Datahotel<T> {
 
     private ObjectMapper mapper;
@@ -56,6 +61,11 @@ public class Datahotel<T> {
         return createQuery().fetch();
     }
 
+    /**
+     * Traverse the whole data set, not page by page.
+     *
+     * @return Iterable for looping.
+     */
     public Iterable<T> all() {
         try {
             return new Download<T>(fetcher.get(URI.create(source + "download/" + location)), cls);
