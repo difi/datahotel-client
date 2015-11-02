@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 public @interface Dataset {
 
     String value();
+    Class<?> raw() default void.class;
 
 }

@@ -1,9 +1,6 @@
 package no.difi.datahotel.client;
 
-import no.difi.datahotel.client.dataset.BrregEnhetsregisteret;
-import no.difi.datahotel.client.dataset.BrregUnderenheter;
-import no.difi.datahotel.client.dataset.DifiGeoFylke;
-import no.difi.datahotel.client.dataset.DifiGeoKommune;
+import no.difi.datahotel.client.dataset.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -44,6 +41,22 @@ public class DatahotelTest {
 
         for (BrregEnhetsregisteret o : datahotel.page(1).fetch())
             Assert.assertFalse(o.toString().contains("null"));
+    }
+
+    @Test
+    public void brregEnhetsregisteretAdvanced() throws Exception {
+        Datahotel<BrregEnhetsregisteretExtra> datahotel = DatahotelBuilder.create(BrregEnhetsregisteretExtra.class).build();
+
+        BrregEnhetsregisteretExtra difi = datahotel.field("orgnr", "991825827").single();
+        Assert.assertNotNull(difi);
+        Assert.assertEquals(difi.getIdentifier(), "991825827");
+        Assert.assertEquals(difi.getName(), "DIREKTORATET FOR FORVALTNING OG IKT");
+        Assert.assertEquals(difi.getPostalAddress().getCountry(), "Norge");
+
+        for (BrregEnhetsregisteretExtra o : datahotel.fetch()) {
+            Assert.assertNotNull(o.getPostalAddress().getCountry());
+            System.out.println(o.getPostalAddress());
+        }
     }
 
     @Test

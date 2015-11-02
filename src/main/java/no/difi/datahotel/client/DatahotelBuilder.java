@@ -14,7 +14,12 @@ public class DatahotelBuilder<T> {
         if (!cls.isAnnotationPresent(Dataset.class))
             throw new IllegalStateException(String.format("Class %s must have Dataset annotation.", cls));
 
-        return create(cls, cls.getAnnotation(Dataset.class).value());
+        DatahotelBuilder<T> builder = create(cls, cls.getAnnotation(Dataset.class).value());
+
+        if (cls.getAnnotation(Dataset.class).raw() != void.class)
+            builder.raw(cls.getAnnotation(Dataset.class).raw());
+
+        return builder;
     }
 
     public static <T> DatahotelBuilder<T> create(Class<T> cls, String location) {
@@ -30,6 +35,7 @@ public class DatahotelBuilder<T> {
     }
 
     private Class<T> cls;
+    private Class<?> raw;
     private String location;
 
     private Fetcher fetcher;
@@ -51,6 +57,11 @@ public class DatahotelBuilder<T> {
         return this;
     }
 
+    public DatahotelBuilder<T> raw(Class<?> raw) {
+        this.raw = raw;
+        return this;
+    }
+
     public DatahotelBuilder<T> source(String source) {
         this.source = source;
         return this;
@@ -64,6 +75,6 @@ public class DatahotelBuilder<T> {
         if (source == null)
             source("https://hotell.difi.no/");
 
-        return new Datahotel<T>(fetcher, mapper, cls, source, location);
+        return new Datahotel<T>(fetcher, mapper, cls, raw, source, location);
     }
 }

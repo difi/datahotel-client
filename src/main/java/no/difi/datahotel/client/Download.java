@@ -14,13 +14,15 @@ class Download<T> implements Iterable<T>, Iterator<T> {
 
     private InputStream inputStream;
     private Class<T> cls;
+    private Class<?> raw;
 
     private CsvReader csvReader;
     private String[] headers;
 
-    Download(InputStream inputStream, Class<T> cls) throws IOException {
+    Download(InputStream inputStream, Class<T> cls, Class<?> raw) throws IOException {
         this.inputStream = inputStream;
         this.cls = cls;
+        this.raw = raw;
 
         this.csvReader = new CsvReader(inputStream, ';', Charset.forName("UTF-8"));
         this.csvReader.setTextQualifier('"');
@@ -52,7 +54,7 @@ class Download<T> implements Iterable<T>, Iterator<T> {
     @Override
     public T next() {
         try {
-            T o = cls.newInstance();
+            Object o = (raw == null ? cls : raw).newInstance();
 
             String[] line = csvReader.getValues();
             Map<String, String> values = new HashMap<String, String>();
@@ -62,7 +64,7 @@ class Download<T> implements Iterable<T>, Iterator<T> {
 
             BeanUtils.populate(o, values);
 
-            return o;
+            return raw == null ? (T) o : cls.getConstructor(raw).newInstance(o);
         } catch (IOException e) {
             // No action
         } catch (ReflectiveOperationException e) {
