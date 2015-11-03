@@ -31,7 +31,7 @@ for (DifiGeoKommune municipality : datahotel.all()) {
 
 ## Query datahotel using your own classes
 
-Want to make queries for counties?
+This example shows how to extend functionality of the library.
 
 ```java
 // Create class
@@ -49,9 +49,9 @@ public class DifiGeoFylke {
     }
 }
 
-// Build client for municipalities (using annotation)
+// Build client for counties (using annotation)
 Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class).build();
-// Build client for municipalities (not using annotation)
+// Build client for counties (not using annotation)
 Datahotel<DifiGeoFylke> datahotel = DatahotelBuilder.create(DifiGeoFylke.class, "difi/geo/fylke").build();
 
 // List all counties:
