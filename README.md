@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/difi/datahotel-client.svg?branch=master)](https://travis-ci.org/difi/datahotel-client)
+
 # Datahotel client
 
 ## Getting started
