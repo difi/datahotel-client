@@ -72,4 +72,8 @@ class Download<T> implements Iterable<T>, Iterator<T> {
         }
         return null;
     }
+
+    public void remove() {
+        throw new UnsupportedOperationException("remove");
+    }
 }
